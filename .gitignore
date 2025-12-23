@@ -12,6 +12,7 @@ ENV/
 node_modules/
 .next/
 out/
+RENDER_SETUP.md
 
 # Environment
 .env
