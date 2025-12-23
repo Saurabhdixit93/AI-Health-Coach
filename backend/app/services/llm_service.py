@@ -176,11 +176,6 @@ Remember: You're a supportive health coach, not a replacement for professional m
                 messages=messages,
                 temperature=self.temperature,
                 max_tokens=self.max_tokens,
-                extra_headers={
-                    "Authorization": f"Bearer {settings.OPENROUTER_API_KEY}",
-                    "HTTP-Referer": "https://github.com/Saurabhdixit93/AI-Health-Coach",
-                    "X-Title": "Disha AI Health Coach"
-                }
             )
             
             # Extract response
