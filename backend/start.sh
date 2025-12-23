@@ -10,15 +10,17 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 
 echo "📂 Current directory: $(pwd)"
-echo "🔍 Listing files:"
-ls -la
+
+# Set PYTHONPATH so Python can find the app module
+export PYTHONPATH="${PYTHONPATH}:${SCRIPT_DIR}"
+echo "🐍 PYTHONPATH: $PYTHONPATH"
 
 echo ""
 echo "🗄️  Initializing database..."
 echo "================================================"
 
-# Run database initialization with error handling
-if python app/init_db.py; then
+# Run database initialization as a Python module
+if python -m app.init_db; then
     echo "✅ Database initialized successfully!"
 else
     echo "❌ Database initialization failed!"
