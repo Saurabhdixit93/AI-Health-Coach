@@ -177,8 +177,9 @@ Remember: You're a supportive health coach, not a replacement for professional m
                 temperature=self.temperature,
                 max_tokens=self.max_tokens,
                 extra_headers={
-                    "HTTP-Referer": "https://disha.health",  # Optional
-                    "X-Title": "Disha AI Health Coach"  # Optional
+                    "Authorization": f"Bearer {settings.OPENROUTER_API_KEY}",
+                    "HTTP-Referer": "https://github.com/Saurabhdixit93/AI-Health-Coach",
+                    "X-Title": "Disha AI Health Coach"
                 }
             )
             
