@@ -5,7 +5,6 @@ from openai import OpenAI
 from sqlalchemy.orm import Session
 from typing import List, Dict, Optional
 from uuid import UUID
-import tiktoken
 
 from ..config import settings
 from ..models import Message
@@ -24,16 +23,14 @@ class LLMService:
         self.model = settings.AI_MODEL
         self.temperature = settings.AI_TEMPERATURE
         self.max_tokens = settings.AI_MAX_TOKENS
-        
-        # Token counter
-        try:
-            self.encoding = tiktoken.encoding_for_model("gpt-3.5-turbo")
-        except:
-            self.encoding = tiktoken.get_encoding("cl100k_base")
     
     def count_tokens(self, text: str) -> int:
-        """Count tokens in a text string."""
-        return len(self.encoding.encode(text))
+        """
+        Estimate token count using character-based approximation.
+        Rough estimate: ~4 characters per token for English text.
+        This is sufficient for context management without requiring tiktoken.
+        """
+        return len(text) // 4
     
     def get_system_prompt(self) -> str:
         """Get the system prompt for Disha health coach."""
