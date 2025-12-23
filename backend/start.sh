@@ -1,14 +1,33 @@
 #!/bin/bash
-# Startup script for Render deployment
+set -e  # Exit immediately if a command exits with a non-zero status
 
-echo "🔄 Checking database initialization..."
+echo "================================================"
+echo "🔄 Disha AI Backend - Startup Script"
+echo "================================================"
 
-# Run database initialization (creates tables if they don't exist)
-cd /opt/render/project/src/backend
-python app/init_db.py
+# Change to the backend directory (works both locally and on Render)
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR"
 
-echo "✅ Database ready!"
-echo "🚀 Starting uvicorn server..."
+echo "📂 Current directory: $(pwd)"
+echo "🔍 Listing files:"
+ls -la
+
+echo ""
+echo "🗄️  Initializing database..."
+echo "================================================"
+
+# Run database initialization with error handling
+if python app/init_db.py; then
+    echo "✅ Database initialized successfully!"
+else
+    echo "❌ Database initialization failed!"
+    echo "⚠️  Continuing anyway - tables might already exist"
+fi
+
+echo ""
+echo "🚀 Starting FastAPI server..."
+echo "================================================"
 
 # Start the FastAPI application
-uvicorn app.main:app --host 0.0.0.0 --port $PORT
+exec uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}
