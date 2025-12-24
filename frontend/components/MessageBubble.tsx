@@ -2,7 +2,7 @@
  * Message bubble component - displays individual chat messages
  */
 import { Message } from "@/lib/api";
-import { formatDistanceToNow } from "date-fns";
+import { format } from "date-fns";
 
 interface MessageBubbleProps {
   message: Message;
@@ -11,10 +11,14 @@ interface MessageBubbleProps {
 export default function MessageBubble({ message }: MessageBubbleProps) {
   const isUser = message.role === "user";
 
-  // Format timestamp
-  const timeAgo = formatDistanceToNow(new Date(message.created_at), {
-    addSuffix: true,
-  });
+  // Format timestamp in local timezone
+  const formatTime = (timestamp: string) => {
+    try {
+      return format(new Date(timestamp), "HH:mm");
+    } catch {
+      return "";
+    }
+  };
 
   return (
     <div
@@ -38,11 +42,24 @@ export default function MessageBubble({ message }: MessageBubbleProps) {
           </p>
         </div>
         <div
-          className={`text-xs text-gray-500 mt-1 px-1 ${
-            isUser ? "text-right" : "text-left"
+          className={`flex items-center gap-1 mt-1 px-1 ${
+            isUser ? "justify-end" : "justify-start"
           }`}
         >
-          {timeAgo}
+          <span className="text-xs text-gray-500">
+            {formatTime(message.created_at)}
+          </span>
+          {/* WhatsApp-style double tick for user messages */}
+          {isUser && (
+            <svg
+              className="w-4 h-4 text-gray-500"
+              fill="currentColor"
+              viewBox="0 0 16 16"
+            >
+              <path d="M12.354 4.354a.5.5 0 0 0-.708-.708L5 10.293 1.854 7.146a.5.5 0 1 0-.708.708l3.5 3.5a.5.5 0 0 0 .708 0l7-7zm-4.208 7-.896-.897.707-.707.543.543 6.646-6.647a.5.5 0 0 1 .708.708l-7 7a.5.5 0 0 1-.708 0z" />
+              <path d="m5.354 7.146.896.897-.707.707-.897-.896a.5.5 0 1 1 .708-.708z" />
+            </svg>
+          )}
         </div>
       </div>
 
