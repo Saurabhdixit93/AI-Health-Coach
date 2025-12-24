@@ -231,7 +231,9 @@ export default function ChatInterface({ userId }: ChatInterfaceProps) {
           </div>
           <div>
             <h1 className="font-semibold text-lg">Disha</h1>
-            <p className="text-xs text-gray-300">Your AI Health Coach</p>
+            <p className="text-xs text-gray-300">
+              {isTyping ? "Typing..." : "Your AI Health Coach"}
+            </p>
           </div>
         </div>
       </div>
