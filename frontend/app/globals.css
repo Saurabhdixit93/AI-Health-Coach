@@ -58,6 +58,21 @@ body {
 }
 
 /* Typing indicator animation */
+.typing-indicator {
+  display: inline-block;
+  animation: typing-blink 1.4s infinite;
+}
+
+@keyframes typing-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+/* Typing indicator animation */
 @keyframes typing {
   0%,
   60%,
